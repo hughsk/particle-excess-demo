@@ -1,0 +1,37 @@
+{
+  "name": "particle-excess-demo",
+  "description": "Simulating and rendering 262,144 particles with GLSL",
+  "version": "0.0.0",
+  "main": "demo.js",
+  "browser": "demo.js",
+  "scripts": {
+    "start": "beefy demo.js:bundle.js --live -- -t glslifyify",
+    "prepublish": "browserify demo.js -t glslifyify > bundle.js"
+  },
+  "dependencies": {
+    "gl-vao": "0.0.3",
+    "gl-shader": "0.0.6",
+    "gl-now": "0.0.4",
+    "gl-fbo": "~0.1.1",
+    "gl-buffer": "~0.1.1",
+    "gl-texture2d": "~0.1.5",
+    "glsl-noise": "0.0.0",
+    "zeros": "0.0.0",
+    "ndarray-fill": "~0.1.0",
+    "ndarray": "~1.0.9"
+  },
+  "devDependencies": {
+    "glslifyify": "~0.1.1",
+    "beefy": "~0.7.1",
+    "browserify": "~3.14.1"
+  },
+  "author": "Hugh Kennedy <hughskennedy@gmail.com> (http://hughsk.io/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hughsk/particle-excess-demo"
+  },
+  "bugs": {
+    "url": "https://github.com/hughsk/particle-excess-demo/issues"
+  }
+}
