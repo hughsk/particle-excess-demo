@@ -75,7 +75,7 @@ function render() {
 
   var shader = shaders.logic
   shader.bind()
-  shader.uniforms.uState = prevState.color.bind()
+  shader.uniforms.uState = prevState.color.bind(0)
   shader.uniforms.uTime = t++
   screenVertices.bind()
   gl.drawArrays(gl.TRIANGLES, 0, 6)
@@ -87,7 +87,7 @@ function render() {
 
   var shader = shaders.render
   shader.bind()
-  shader.uniforms.uState = nextState.color.bind()
+  shader.uniforms.uState = nextState.color.bind(0)
   shader.uniforms.uScreen = [shell.width, shell.height]
 
   particleVertices.bind()
@@ -12649,7 +12649,7 @@ Object.defineProperty(proto, "mipSamples", {
     this._anisoSamples = i|0
     if(psamples !== this._anisoSamples) {
       var ext = webglew(this.gl).EXT_texture_filter_anisotropic
-      if(ext) {
+      if(ext && this._anisoSamples) {
         this.gl.texParameterf(this.gl.TEXTURE_2D, ext.TEXTURE_MAX_ANISOTROPY_EXT, this._anisoSamples)
       }
     }
@@ -12676,7 +12676,7 @@ proto.dispose = function disposeTexture2D() {
 proto.generateMipmap = function() {
   this.bind()
   this.gl.generateMipmap(this.gl.TEXTURE_2D)
-  
+
   //Update mip levels
   var l = Math.min(this.shape[0], this.shape[1])
   for(var i=0; l>0; ++i, l>>>=1) {
@@ -12710,7 +12710,7 @@ proto.setPixels = function(data, x_off, y_off, mip_level) {
        x_off < 0 ||
        y_off < 0) {
       throw new Error("Texture dimensions are out of bounds")
-    }    
+    }
     texSubImageArray(gl, x_off, y_off, mip_level, this.format, this.type, this._mipLevels, data)
   } else {
     throw new Error("Unsupported data type")
@@ -17620,5 +17620,5 @@ module.exports = "\n#define GLSLIFY 1\n\n#ifdef GL_ES\n\nprecision mediump float
 },{}],88:[function(require,module,exports){
 module.exports = "\n#define GLSLIFY 1\n\n#ifdef GL_ES\n\nprecision mediump float;\n#endif\n\nuniform sampler2D uTexture;\nvarying vec2 vIndex;\nvoid main() {\n  gl_FragColor = vec4(sin(vIndex.x * 10.0), 0.5, 1.0 - vIndex.y, 1.0) * 0.165;\n}"
 },{}],89:[function(require,module,exports){
-module.exports = "\n#define GLSLIFY 1\n\n#ifdef GL_ES\n\nprecision mediump float;\n#endif\n\nattribute vec2 aIndex;\nuniform vec2 uScreen;\nuniform sampler2D uState;\nvarying vec2 vIndex;\nvoid main() {\n  vIndex = aIndex;\n  gl_Position = vec4(texture2D(uState, aIndex).xy / uScreen, 1.0, 1.0);\n}"
+module.exports = "\n#define GLSLIFY 1\n\n#ifdef GL_ES\n\nprecision mediump float;\n#endif\n\nattribute vec2 aIndex;\nuniform vec2 uScreen;\nuniform sampler2D uState;\nvarying vec2 vIndex;\nvoid main() {\n  vIndex = aIndex;\n  gl_PointSize = 1.0;\n  gl_Position = vec4(texture2D(uState, aIndex).xy / uScreen, 1.0, 1.0);\n}"
 },{}]},{},[1])
