@@ -74,7 +74,7 @@ function render() {
 
   var shader = shaders.logic
   shader.bind()
-  shader.uniforms.uState = prevState.color.bind()
+  shader.uniforms.uState = prevState.color.bind(0)
   shader.uniforms.uTime = t++
   screenVertices.bind()
   gl.drawArrays(gl.TRIANGLES, 0, 6)
@@ -86,7 +86,7 @@ function render() {
 
   var shader = shaders.render
   shader.bind()
-  shader.uniforms.uState = nextState.color.bind()
+  shader.uniforms.uState = nextState.color.bind(0)
   shader.uniforms.uScreen = [shell.width, shell.height]
 
   particleVertices.bind()
